@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entre Madres</title>
+    <style> 
+        /* Fondo general de la página */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: rgb(172,172,172);
+            background: radial-gradient(circle, rgba(172,172,172,1) 0%, rgba(85,84,84,1) 100%);c
+            min-height: 100vh;
+            width: 100%;
+        }
+        #image {
+            width: 600px;
+            height: 1937px;
+            display: block;
+            margin: auto;
+        }
+
+        #videoModal {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background-color: transparent;
+            z-index: 20;
+            justify-content: center;
+            align-items: center;
+            transform: translate(-50%, -50%);
+        }
+
+       /* Fondo general de la página */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: rgb(172,172,172);
+    background: radial-gradient(circle, rgba(172,172,172,1) 0%, rgba(85,84,84,1) 100%);
+    min-height: 100vh;
+    width: 100%;
+}
+
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100; /* Mantén un z-index alto cuando está visible */
+    cursor: pointer;
+}
+
+.splash-text-box {
+    font-family: "PestañasBienvenida", Arial, sans-serif; 
+    background-color: rgba(150, 150, 150, 0.637); /* Fondo con algo de transparencia */
+    padding: 50px;
+    border-radius: 60px; /* Bordes más redondeados */
+    text-align: justify;
+    color: #d8d8d8;
+    max-width: 55%;
+    font-size: 1.0em;
+    box-shadow: 0px 0px 100px rgb(150, 150, 150); /* Sombra difusa */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 2.5s ease, transform 2.5s ease-out;
+}
+
+.splash-text-box.show {
+    opacity: 1; /* Hacerlo visible */
+    transform: translateY(0); /* Regresar a su posición original */
+}
+
+/* Al hacer clic en la pantalla de bienvenida, se oculta */
+.splash-screen.hidden {
+    display: none;
+    z-index: 1; /* Z-index bajo cuando se oculta */
+}
+
+/* Estilo de las pestañas */
+.tab-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    z-index: 10; /* Asegura que las pestañas siempre sean visibles */
+}
+
+/* Contenido de las pestañas */
+.tab-content {
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    width: 300px;
+    padding: 10px;
+    background-color: rgba(131, 131, 131, 0.8);
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(131, 131, 131, 0.8);
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+        /* Estilo para el título principal */
+        @font-face {
+            font-family: "ENTREMADRES";
+            src: url("Syne-Bold.ttf") format("truetype"); 
+        }
+
+        @font-face {
+            font-family: "PestañasBienvenida";
+            src: url("Syne-Medium.ttf") format("opentype");
+        }
+
+        @font-face {
+            font-family: "Contenedores";
+            src: url("Syne-Medium.ttf") format("truetype");
+        }
+
+        /* Clase para ocultar elementos antes de mostrarlos */
+         .fade { 
+            opacity: 0;
+            transition: opacity 2.5s ease; /* Duración y tipo de transición */
+        }
+
+         .fade.show {
+             opacity: 1;
+            }
+
+        h1.title-main {
+            font-family: "EntreMadres", Arial, sans-serif;
+            text-align: left; 
+            color: #a3a3a3;
+            font-size: 1.5em; 
+            margin-left: 30px;
+            margin-right: 20px;  /* Deja margen en el lado derecho */
+            margin-top: 30px; 
+        }
+
+        #main-content {
+            display: none;
+        }
+
+        /* Ocultar la segunda pantalla splash inicialmente */
+        #second-splash {
+    display: none; /* Oculto inicialmente */
+    align-items: center;
+    justify-content: center;
+}
+        #second-splash.show {
+    display: flex; /* Muestra la pantalla */
+} 
+   
+    /* Contenedor de pestañas - Posicionado en la esquina superior derecha */
+    /* Estilo para las pestañas */
+    .tab-container {
+    position: absolute;  /* Se mantiene en la posición absoluta */
+    top: 20px;  /* Distancia desde el top de la página */
+    right: 0;  /* Alinea el contenedor hacia la derecha */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;  /* Alinea los elementos dentro del contenedor hacia la derecha */
+    gap: 5px;
+    z-index: 1;
+    width: 250px;  /* Ancho fijo para que todos los contenedores tengan el mismo tamaño */
+}
+
+/* Estilo de las pestañas */
+.tab-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 5px;
+    z-index: 1;
+    width: 250px;
+    margin-right: 10px;  /* Deja margen en el lado derecho */
+    margin-top: 10px;    /* Deja margen en la parte superior */
+}
+
+/* Estilo de las pestañas */
+.tab {
+    padding: 10px;
+    background-color: #a1a1a1b4;
+    color: rgb(231, 231, 231);
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    font-family: "Contenedores", Arial, sans-serif;
+    font-size: 0.8em;
+    transition: background-color 0.3s ease, padding 0.3s ease, height 0.3s ease;
+    z-index: 1;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+/* Aumentar la altura de la pestaña cuando está activa */
+.tab.active {
+    padding: 15px;  /* Mayor espacio vertical cuando está activa */
+    background-color: #888;  /* Cambiar color de fondo para indicar que está activa */
+}
+
+/* Estilo de los contenedores de contenido */
+.tab-content {
+    width: 100%;
+    min-height: 200px;  /* Mínima altura para los contenedores de contenido */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;  /* Mayor espacio dentro de los contenedores */
+    margin: 0 20px 10px 20px;
+    box-sizing: border-box;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: height 0.3s ease;  /* Transición suave para el tamaño */
+}
+
+/* Puedes especificar diferentes alturas según el contenido */
+.tab-content.active {
+    height: auto;  /* Deja que el contenedor se ajuste según su contenido */
+}
+
+/* Estilo de los botones */
+button {
+    padding: 5px 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+
+.tab:hover {
+    background-color: #858585;
+}
+
+/* Contenido de las pestañas */
+.tab-content {
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    width: 40%;  /* Ajusta el ancho para hacerlo más estrecho */
+    height: 82%;  /* Ajusta la altura para hacerlo más largo que ancho */
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: none;
+    font-family: "Contenedores", Arial, sans-serif;
+    font-size: 0.8em; /* Tamaño de letra por defecto */
+    line-height: 1.6; /* Espaciado entre líneas */
+    z-index: 2;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Para los párrafos dentro de las pestañas */
+.tab-content p {
+    margin-bottom: 15px;  /* Espacio entre párrafos */
+    font-size: 1.0em;  /* Puedes cambiar el tamaño aquí */
+    color: #5f5f5f;  /* Color de texto */
+}
+
+/* Encabezados dentro de las pestañas */
+.tab-content h2 {
+    font-size: 1.5em; /* Tamaño de los encabezados */
+    margin-bottom: 15px; /* Espacio debajo del encabezado */
+    color: #747474;
+    text-align: left;
+}
+
+.image-text-container {
+    display: flex;
+    align-items: center; /* Alinea verticalmente */
+    gap: 10px; /* Espaciado entre la imagen y el texto */
+}
+
+.small-image {
+    width: 100px; /* Ajusta el tamaño de la imagen */
+    height: auto; /* Mantén la proporción de la imagen */
+    border-radius: 5px; /* Opcional: bordes redondeados */
+}
+
+</style>
+    </style>
+</head>
+<body>
+    <!-- Pantalla de bienvenida (Primera) -->
+    <div id="splashScreen" class="splash-screen" onclick="showSecondSplash()">
+        <div class="splash-text-box">
+            <p>"Entre Madres" es un proyecto documental que tiene como propósito registrar testimonios y experiencias dentro del universo de la maternidad. Su objetivo es crear un espacio común donde las madres puedan sentirse acompañadas, compartir sentimientos y vivencias que, en ocasiones, resultan difíciles de expresar abiertamente en nuestra sociedad.</p>
+        </div>
+    </div>
+
+    <!-- Pantalla de bienvenida (Segunda) -->
+    <div id="second-splash" class="splash-screen" onclick="hideSecondSplash()">
+        <div class="splash-text-box">
+            <p>“[. . .] entender el amor materno a la luz de otras formas de cuidado que sostienen este vínculo maleable, podrá permitirnos pensar el amor que nos une a nuestras criaturas como algo más liviano, piadoso, alegre, dando lugar, incluso, a la furia, al rechazo, a la frustración y al equívoco.” - (Buffone, 2020, p.184).</p>
+        </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div id="main-content" class="fade">
+        <h1 class="title-main">ENTRE MADRES</h1>
+       
+        <img id="imagen"
+        src="dibujo 2-Recuperado.png"
+        alt="Cuerpo femenino hecho con líneas que refieren a un mapa" 
+        width="600" height="1937" 
+        style="display: block; margin: auto;" usemap="#mapa-cuerpo">
+    
+        <map name="mapa-cuerpo">
+            <area shape="rect" coords="498,532,528,564" href="#" alt="Video" onclick="openVideoModal(event)">
+            <area shape="rect" coords="462,1004,489,1034" href="#" alt="Video" onclick="openVideoModal2(event)">
+            <area shape="rect" coords="342,1783,316,1757" href="#" alt="Video" onclick="openVideoModal3(event)">
+            <area shape="rect" coords="29,931,5,903" href="#" alt="Video" onclick="openVideoModal4(event)">
+            <area shape="rect" coords="37,1073,7,1045" href="#" alt="Video" onclick="openVideoModal5(event)">
+            <area shape="rect" coords="22,859,42,881" href="#" alt="Audio" onclick="showAudioPlayer(event)">
+            <area shape="rect" coords="369,1833,398,1864" href="#" alt="Audio" onclick="showAudioPlayer2(event)">
+            <area shape="rect" coords="518,444,537,463" href="#" alt="Audio" onclick="showAudioPlayer3(event)">
+            <area shape="rect" coords="374,839,402,866" href="#" alt="Audio" onclick="showAudioPlayer4(event)">
+            <area shape="rect" coords="397,748,425,775" href="#" alt="Audio" onclick="showAudioPlayer5(event)">
+            <area shape="rect" coords="380,793,408,820" href="#" alt="Audio" onclick="showAudioPlayer6(event)">
+            <area shape="rect" coords="442,663,467,689" href="#" alt="Audio" onclick="showAudioPlayer7(event)">
+            <area shape="rect" coords="105,1198,79,1172" href="#" alt="Audio" onclick="showAudioPlayer8(event)">
+            <area shape="rect" coords="131,1235,107,1213" href="#" alt="Audio" onclick="showAudioPlayer9(event)">
+            <area shape="rect" coords="52,1118,22,1090" href="#" alt="Audio" onclick="showAudioPlayer10(event)">
+            <area shape="rect" coords="77,1161,47,1133" href="#" alt="Audio" onclick="showAudioPlayer11(event)">
+            <area shape="rect" coords="512,398,531,417" href="#" alt="Cuadro de texto" onclick="showTextBox(event)">
+            <area shape="rect" coords="512,490,535,514" href="#" alt="Cuadro de texto" onclick="showTextBox3(event)">
+            <area shape="rect" coords="486,580,509,604" href="#" alt="Cuadro de texto" onclick="showTextBox4(event)">
+            <area shape="rect" coords="465,624,488,648" href="#" alt="Cuadro de texto" onclick="showTextBox5(event)">
+            <area shape="rect" coords="421,707,444,731" href="#" alt="Cuadro de texto" onclick="showTextBox6(event)">
+            <area shape="rect" coords="387,883,414,913" href="#" alt="Cuadro de texto" onclick="showTextBox7(event)">
+            <area shape="rect" coords="409,925,436,955" href="#" alt="Cuadro de texto" onclick="showTextBox8(event)">
+            <area shape="rect" coords="437,964,464,994" href="#" alt="Cuadro de texto" onclick="showTextBox9(event)">
+            <area shape="rect" coords="480,1049,507,1079" href="#" alt="Cuadro de texto" onclick="showTextBox10(event)">
+            <area shape="rect" coords="486,1095,513,1122" href="#" alt="Cuadro de texto" onclick="showTextBox11(event)">
+            <area shape="rect" coords="481,1143,508,1170" href="#" alt="Cuadro de texto" onclick="showTextBox12(event)">
+            <area shape="rect" coords="467,1188,492,1213" href="#" alt="Cuadro de texto" onclick="showTextBox13(event)">
+            <area shape="rect" coords="422,1273,443,1295" href="#" alt="Cuadro de texto" onclick="showTextBox14(event)">
+            <area shape="rect" coords="398,1314,419,1336" href="#" alt="Cuadro de texto" onclick="showTextBox15(event)">
+            <area shape="rect" coords="396,1377,375,1356" href="#" alt="Cuadro de texto" onclick="showTextBox16(event)">
+            <area shape="rect" coords="372,1419,351,1398" href="#" alt="Cuadro de texto" onclick="showTextBox17(event)">
+            <area shape="rect" coords="350,1459,330,1442" href="#" alt="Cuadro de texto" onclick="showTextBox18(event)">
+            <area shape="rect" coords="310,1687,290,1670" href="#" alt="Cuadro de texto" onclick="showTextBox19(event)">
+            <area shape="rect" coords="323,1735,300,1714" href="#" alt="Cuadro de texto" onclick="showTextBox20(event)">
+            <area shape="rect" coords="366,1824,340,1798" href="#" alt="Cuadro de texto" onclick="showTextBox21(event)">
+            <area shape="rect" coords="155,1277,131,1255" href="#" alt="Cuadro de texto" onclick="showTextBox22(event)">
+            <area shape="rect" coords="66,838,44,819" href="#" alt="Cuadro de texto" onclick="showTextBox23(event)">
+            <area shape="rect" coords="42,880,20,861" href="#" alt="Cuadro de texto" onclick="showTextBox24(event)">
+            <area shape="rect" coords="26,978,0,949" href="#" alt="Cuadro de texto" onclick="showTextBox25(event)">
+            <area shape="rect" coords="27,1025,1,996" href="#" alt="Cuadro de texto" onclick="showTextBox26(event)">
+        </map>
+
+        <div id="textBox" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>El primer trimestre del embarazo no pude cursar por los vómitos. Cuando nació mi primera hija todavía era estudiante, de día alternábamos con mi esposo para cuidarla y que yo fuera a la facultad. Estudiaba por las noches, mientras ella dormía, entre tomas porque tomaba el pecho. Iba a clase y en los recreos regresaba para darle el pecho. Luego a pesar de que parezca difícil la carrera me fue mejor que nunca. Era más pragmática, usaba el tiempo efectivamente y sobretodo tenía una necesidad de acabar imperiosa. Tenía un para qué finalizar mis estudios y eso me hizo encontrar el cómo.</p>
+            <p>Después como psicóloga siempre trabajé desde casa porque es más fácil para cuidar a mis 3 hijos. A veces cuando estoy en videollamada con algún paciente han entrado en la habitación interrumpiendo la sesión; algunos pacientes no tiene problema y otros si.</p>
+            <p>Laura. 45 años.</p>
+            <button onclick="closeTextBox()">Cerrar</button>
+        </div>
+
+        <div id="textBox3" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Me quede sin mi empleo al ser madre por primera vez, y luego fue muy difícil conseguir otro trabajo ya que la pregunta de si eras madre o no limitaba mucho las contrataciones.</p>
+            <p>Claudia. 31 años.</p>
+            <button onclick="closeTextBox3()">Cerrar</button>
+        </div>
+
+        <div id="textBox4" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Quedé embarazada de mi primer hijo antes de recibirme, y esto afectó la disponibilidad de tiempos para estudiar y dedicarme a la facultad. Lo fui haciendo como iba pudiendo y me recibí a los 2 años de mi segundo hijo. Quisiera compartir que para mí fue muy importante poder dedicarme a cuidar a mis hijos y dar prioridad a esta etapa de la vida pero siento que si hubiese podido conversar más con el papá de ellos quizá hubiera vivido esta etapa con menos esfuerzo y más acompañamiento de él sin ser yo quien dejaba absolutamente todas mis actividades. Me parece que es interesante poder encontrar una equilibrio entre el ser mamá y desarrollar mi ser profesional o laboral.</p>
+            <p>Romina. 42 años.</p>
+            <button onclick="closeTextBox4()">Cerrar</button>
+        </div>
+
+        <div id="textBox5" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p> Me está afectando muchísimo con la organización para estudiar, cumplir con las prácticas y a la vez rendir bien a nivel académico ya que mi cuerpo también requiere descanso.</p>
+            <p>Tranquilidad que lo vas a lograr, tal vez no al mismo ritmo que antes, no al mismo ritmo de otros pero lo vas a lograr.</p>
+            <button onclick="closeTextBox5()">Cerrar</button>
+        </div>
+
+        <div id="textBox6" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Lo que les puedo decir es que traten de estudiar y recibirse antes de maternar. Con bebé es muy difícil, agotador...y van a terminar enojándose con ellas por no poder hacer lo que desean. Tengan un plan, o estudiar o terminar una carrera. Es por su salud mental.</p>
+            <p>Verónica. 36 años.</p>
+            <button onclick="closeTextBox6()">Cerrar</button>
+        </div>
+
+        <div id="textBox7" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Definitivamente la relación se transformó y se sigue transformando a medida que aparecen nuevos desafíos, nuevas alegrías también. Nos fortaleció en ciertos aspectos, al convertirnos en una familia. También nos pone al límite a veces cuando estamos cansados, por ejemplo. Creo que acá la paciencia es fundamental. Y esperar a que pase la cresta de la ola antes de tomar decisiones o hasta decir algo a veces.</p>
+            <p>Mariana. 28 años.</p>
+            <button onclick="closeTextBox7()">Cerrar</button>
+        </div>
+
+        <div id="textBox8" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>La relación con tu pareja cambia. La más grave para mí, es el deseo incansable del hombre de querer tener sexo muchas más veces que la mujer. Y nosotras nos sentimos con una exigencia más en lugar de que tú pareja te alivie la carga mental y física. Tu prioridad cambia por lo que tu deseo sexual cambia. Te dedicas exclusivamente a ese bebé, estas cansada, agotada y muchas parejas no entienden,  exigen que estés para ellos.</p>
+            <p>Necesité más empatía emocional de mi pareja. En la mayoría de las mujeres la libido baja y si la otra persona no entiende eso se complica. Tarda 2 años el cuerpo de la mujer en volver a su lugar y si la persona que está con vos no lo entiende, hay problemas.</p>
+            <p>Sofía. 32 años.</p>
+            <button onclick="closeTextBox8()">Cerrar</button>
+        </div>
+
+        <div id="textBox9" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>El hombre acompaña pero a veces creo que se siente desplazado. Es como si el foco central para la mamá, o al menos para mí, eran mis hijas. Y aparte se desgasta la relación porque es cansador levantarse de noche, no dormir, y si la pareja no encuentra cómo reencontrarse puede alejarse mucho.</p>
+            <p>Mariela. 50 años.</p>
+            <button onclick="closeTextBox9()">Cerrar</button>
+        </div>
+
+        <div id="textBox10" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Modificó mi disponibilidad anímica en cuanto a los tiempos de compartir a solas con él. En muchos momentos me sentí en una isla con mis hijos viviendo una vida por un lado con ellos y mi pareja haciendo sus cosas por otro lado. Si bien compartíamos cosas también dejamos de compartir momentos ya que yo me tenía que quedar a cuidarlos para que mi pareja pudiera ir a jugar al futbol o salir con amigos. Ya no salimos mucho más solos o juntos sino con los chicos o cada uno por su lado.</p>
+            <button onclick="closeTextBox10()">Cerrar</button>
+        </div>
+
+        <div id="textBox11" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Totalmente, sobre todo para la mamá necesita de ese apoyo y contención todo el momento, y la pareja a veces no colabora con nada. En mi caso solo económicamente. Duré 1 mes con mi pareja luego de tenerlo y me separé. Tuve apoyo de mi familia todo el tiempo, y gracias a eso no me hizo falta. Hoy actualmente tiene 8 meses mi hijo y super orgullosa de poder con todo sola, de hecho podemos mamás.</p>
+            <p>Ana. 26 años.</p>
+            <button onclick="closeTextBox11()">Cerrar</button>
+        </div>
+
+        <div id="textBox12" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Me di cuenta que no quería maternar a un adulto y me separé. El progenitor se desentendió y por suerte mi familia primaria y mis amigos fueron un gran sostén. Viví en comunidad con amigos durante los primeros 3 años de la vida de mi hijo. Me hubiese gustado criarlos en pareja pero nos divorciamos. Fue arduo. Hoy soy feliz y ellos son chicos íntegros. Seguramente también sufrieron algún vacío, fue inevitable.</p>
+            <p>María. 43 años.</p>
+            <button onclick="closeTextBox12()">Cerrar</button>
+        </div>
+
+        <div id="textBox13" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Al principio si, sentía que solo yo criaba, estaba agotada y me sentía sola, no sentía que él me apoyara, por ejemplo cuando estaba de licencia los primeros meses había días que ni siquiera comía bien, hubiese esperado que él me cuide y se ocupe de eso. Aún creo que nunca vamos a repartir por igual las responsabilidades pero luego de hablar mucho de a poco fue tomando más participación, sentí la necesidad de buscar ayuda psicológica, hablar con otras mujeres que pasaron lo mismo me ayudó muchísimo.</p>
+            <p>Por otro lado (positivo) creo que valoramos más el momento que tenemos para nosotros dos y sabemos ambos que estamos trabajando duro para crear esta familia, eso nos une.</p>
+            <p>Natalia. 34 años.</p>
+            <button onclick="closeTextBox13()">Cerrar</button>
+        </div>
+
+        <div id="textBox14" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Luego de ser mamá la relación con mi pareja cambió de muchas formas, en el sexo que para mí dejó de ser prioridad, en los gastos que todo es para sus necesidades, en decidir que festejar y que no como cumpleaños y navidad. Y en la relación con la familia de origen de cada uno.</p>
+            <button onclick="closeTextBox14()">Cerrar</button>
+        </div>
+
+        <div id="textBox15" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Con mi pareja nos sentimos muy unidos, nos apoyábamos para que cada uno de nosotros pudiera finalizar sus estudios y encauzar su carrera. Ahora estamos más unidos que nunca, además de pareja tenemos una familia. Es más difícil tener tiempo solos pero cuando lo tenemos es de gran valor a pesar de que a veces estamos agotados y bostezamos en el teatro, cine, restaurante…</p>
+            <p>Mercedes. 39 años.</p>
+            <button onclick="closeTextBox15()">Cerrar</button>
+        </div>
+
+        <div id="textBox16" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Después de ser madre sentí que el entorno se alejó. Perdí amigas e incluso a familiares. Conocí a gente nueva que no me conocía antes de ser madre y gran parte de mi entorno anterior a ser madre lo perdí.</p>
+            <p>Roberta.</p>
+            <button onclick="closeTextBox16()">Cerrar</button>
+        </div>
+
+        <div id="textBox17" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Todos tienen expectativas y suposiciones. Como así también consejos y opiniones. No es sencillo. Recomiendo fuertemente limitar los espacios de interacción binomio individuo-sociedad hasta afianzado el vínculo… para aprender a escucharse uno mismo también. Con mis dos primeros hijos fui demasiado acorde a lo que se esperaba. Con los otros dos, elegí modos más genuinos y me sentí mejor que antes.</p>
+            <p>Verónica. 51 años.</p>
+            <button onclick="closeTextBox17()">Cerrar</button>
+        </div>
+
+        <div id="textBox18" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Sentí que cumplí con las expectativas familiares y sociales en detrimento de las mías. Esperan que nos encarguemos de todo sin decir ni A.</p>
+            <p>Tamara. 33 años.</p>
+            <button onclick="closeTextBox18()">Cerrar</button>
+        </div>
+
+        <div id="textBox19" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>A veces aun acompañada,  una puede sentirse sola. En general, lo que me faltó se debía más a mi dificultad para pedir y recibir ayuda que al hecho de no tenerla disponible. Tener paciencia y no desesperar, supo ser de ayuda.</p>
+            <p>Cecilia. 34 años.</p>
+            <button onclick="closeTextBox19()">Cerrar</button>
+        </div>
+
+        <div id="textBox20" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Quizá si deseaba más presencia de mis amistades en momentos claves y de profesionales de la salud mental como mi psicóloga a la que acudí y me negó sesiones después de haber estado con ella 4 años de terapia interrumpida. Como mamá en pleno puerperio no me encuentro en momento para empezar terapia de 0 con otro profesional.</p>
+            <p>Anabella. 29 años.</p>
+            <button onclick="closeTextBox20()">Cerrar</button>
+        </div>
+
+        <div id="textBox21" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Vivo retirada de mi familia. Ayuda recibí poca y fui criticada por tener cesárea, yo quería un parto normal y por decisión del médico (me deje engañar) termine en una cesárea indeseada, pero muchos piensan que fue mi culpa.</p>
+            <p>Lorena. 54 años.</p>
+            <button onclick="closeTextBox21()">Cerrar</button>
+        </div>
+
+        <div id="textBox22" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Estaba siempre sola, mi familia venía el fin de semana pero yo tenía que limpiar y prepararme para ese día, hubiese querido que me acompañen más pero desde el cuidado hacia mi persona, no siempre es ver al bebé, a veces simplemente una comida caliente, limpiar la casa, lavar la ropa, hacer alguna compra, escucharme.</p>
+            <p>María.</p>
+            <button onclick="closeTextBox22()">Cerrar</button>
+        </div>
+
+        <div id="textBox23" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Yo cambié. Primero me dejé de ver, después me miré y no me gusté. Estuve angustiada con la mujer que había dejado de ser por convertirme en mamá. Y ahora ya pasó.</p>
+            <p>Solange. 35 años.</p>
+            <button onclick="closeTextBox23()">Cerrar</button>
+        </div>
+
+        <div id="textBox24" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Sufí cambios en el tema físico y emocional. Físico porque me veo fea, con partes flácidas y poco tiempo para poder producirme. Poco tiempo porque es muy poca la ayuda que recibo por parte de mi pareja. Emocional por querer hacer de todo y no poder.</p>
+            <p>Roxana. 42 años.</p>
+            <button onclick="closeTextBox24()">Cerrar</button>
+        </div>
+
+        <div id="textBox25" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>Las mujeres pasamos por muchas emociones juntas después del parto, la felicidad que nos da a ver nuestro recién nacido en nuestros brazos, pero con un miedo terrible a los dolores, la recuperación y el querer tener a nuestro bebé en una cajita de cristal para que no le pase nada. A veces nos angustiamos porque cuesta que el bebé se prenda del pecho, pensamos que hacemos las cosas mal, nos angustiamos cuando el bebé no para de llorar y no sabemos cómo calmarlo y enojo porque la mayoría de las veces el papá es solo papá y no paterna (no todos en la misma bolsa, hay excepciones) no se ponen en el lugar de la mujer y la mujer tiene que hacer todo y como puede.</p>
+            <p>Graciela. 51 años.</p>
+            <button onclick="closeTextBox25()">Cerrar</button>
+        </div>
+
+        <div id="textBox26" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <p>A veces siento arrepentimiento cuando debo priorizar a mis hijos ante un deseo o cuando veo la libertad con que se mueven personas que no tienen hijos.</p>
+            <button onclick="closeTextBox26()">Cerrar</button>
+        </div>
+ 
+        <div id="videoModal" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: transparent; z-index: 20; justify-content: center; align-items: center;">
+            <div style="position: relative; width: 80%; max-width: 600px;">
+                <button onclick="closeVideoModal()" style="position: absolute; top: -10px; right: -10px; background-color: #fff; border: none; border-radius: 50%; padding: 5px 10px; cursor: pointer;">&times;</button>
+                <video id="videoContent" controls style="width: 100%;">
+                    <source src="Animación4_trabajo.mp4" type="video/mp4">
+                    Tu navegador no soporta videos.
+                </video>
+            </div>
+        </div>
+
+        <div id="videoModal2" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: transparent; z-index: 20; justify-content: center; align-items: center;">
+            <div style="position: relative; width: 80%; max-width: 600px;">
+                <button onclick="closeVideoModal2()" style="position: absolute; top: -10px; right: -10px; background-color: #fff; border: none; border-radius: 50%; padding: 5px 10px; cursor: pointer;">&times;</button>
+                <video id="videoContent2" controls style="width: 100%;">
+                    <source src="Animación2_Pareja.mp4" type="video/mp4">
+                    Tu navegador no soporta videos.
+                </video>
+            </div>
+        </div>
+
+        <div id="videoModal3" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: transparent; z-index: 20; justify-content: center; align-items: center;">
+            <div style="position: relative; width: 80%; max-width: 600px;">
+                <button onclick="closeVideoModal3()" style="position: absolute; top: -10px; right: -10px; background-color: #fff; border: none; border-radius: 50%; padding: 5px 10px; cursor: pointer;">&times;</button>
+                <video id="videoContent3" controls style="width: 100%;">
+                    <source src="Animación3_entorno.mp4" type="video/mp4">
+                    Tu navegador no soporta videos.
+                </video>
+            </div>
+        </div>
+
+        <div id="videoModal4" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: transparent; z-index: 20; justify-content: center; align-items: center;">
+            <div style="position: relative; width: 80%; max-width: 600px;">
+                <button onclick="closeVideoModal4()" style="position: absolute; top: -10px; right: -10px; background-color: #fff; border: none; border-radius: 50%; padding: 5px 10px; cursor: pointer;">&times;</button>
+                <video id="videoContent4" controls style="width: 100%;">
+                    <source src="Animación1_yo.mp4" type="video/mp4">
+                    Tu navegador no soporta videos.
+                </video>
+            </div>
+        </div>
+
+        <div id="videoModal5" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: transparent; z-index: 20; justify-content: center; align-items: center;">
+            <div style="position: relative; width: 80%; max-width: 600px;">
+                <button onclick="closeVideoModal5()" style="position: absolute; top: -10px; right: -10px; background-color: #fff; border: none; border-radius: 50%; padding: 5px 10px; cursor: pointer;">&times;</button>
+                <video id="videoContent5" controls style="width: 100%;">
+                    <source src="Animación6_yo.mp4" type="video/mp4">
+                    Tu navegador no soporta videos.
+                </video>
+            </div>
+        </div>
+
+        <div id="audioPlayer" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <audio controls>
+                <source src="c:\Users\Agustina Pilar\Desktop\docu pav\audio-relacion-con-una-misma.mp3" type="audio/mpeg">
+            </audio>
+            <button onclick="closeAudioPlayer()">Cerrar</button>
+        </div>
+
+        <div id="audioPlayer2" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <audio controls>
+                <source src="c:\Users\Agustina Pilar\Desktop\docu pav\audio-no-puede-ser-madre_1.mp3" type="audio/mpeg">
+            </audio>
+            <button onclick="closeAudioPlayer2()">Cerrar</button>
+        </div>
+
+        <div id="audioPlayer3" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <audio controls>
+                <source src="Testimonio-audio-8_TRABAJO-_del-doc-2__ok_.mp3" type="audio/mpeg">
+            </audio>
+            <button onclick="closeAudioPlayer3()">Cerrar</button>
+        </div>
+
+        <div id="audioPlayer4" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <audio controls>
+                <source src="Testimonio-audio-6_TRABAJO_del-doc-4_.mp3" type="audio/mpeg">
+            </audio>
+            <button onclick="closeAudioPlayer4()">Cerrar</button>
+        </div>
+
+        <div id="audioPlayer5" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <audio controls>
+                <source src="Testimonio-audio-2_TRABAJO.mp3" type="audio/mpeg">
+            </audio>
+            <button onclick="closeAudioPlayer5()">Cerrar</button>
+        </div>
+
+        <div id="audioPlayer6" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <audio controls>
+                <source src="Testimonio-audio-9_TRABAJO_CARRERA.mp3" type="audio/mpeg">
+            </audio>
+            <button onclick="closeAudioPlayer6()">Cerrar</button>
+        </div>
+
+        <div id="audioPlayer7" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <audio controls>
+                <source src="audio-relacion-laboral.mp3" type="audio/mpeg">
+            </audio>
+            <button onclick="closeAudioPlayer7()">Cerrar</button>
+        </div>
+        
+        <div id="audioPlayer8" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <audio controls>
+                <source src="Testimonio-audio-1_ENTORNO.mp3" type="audio/mpeg">
+            </audio>
+            <button onclick="closeAudioPlayer8()">Cerrar</button>
+        </div>
+
+        <div id="audioPlayer9" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <audio controls>
+                <source src="Testimonio-audio-3_ENTORNO.mp3" type="audio/mpeg">
+            </audio>
+            <button onclick="closeAudioPlayer9()">Cerrar</button>
+        </div>
+
+        <div id="audioPlayer10" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <audio controls>
+                <source src="Testimonio audio 4_ RELACIÓN CON UNA.mp3" type="audio/mpeg"> 
+            </audio>
+            <button onclick="closeAudioPlayer10()">Cerrar</button>
+        </div>
+
+        <div id="audioPlayer11" style="display: none; position: absolute; top: 200px; left: 50%; transform: translate(-50%, 0); background-color: rgba(255, 255, 255, 0.9); border: 1px solid #ccc; border-radius: 8px; padding: 10px; max-width: 300px; text-align: center; z-index: 30;">
+            <audio controls>
+                <source src="Testimonio audio 5_RELACION CON UNA.mp3" type="audio/mpeg"> 
+            </audio>
+            <button onclick="closeAudioPlayer11()">Cerrar</button>
+        </div>
+
+        <!-- Contenedor de pestañas -->
+        <div class="tab-container">
+            <div class="tab" onclick="showTabContent('content1')">SOBRE EL PROYECTO</div>
+            <div class="tab" onclick="showTabContent('content2')">SUMA TU TESTIMONIO</div>
+            <div class="tab" onclick="showTabContent('content3')">REFERENCIAS Y CONTACTOS</div>
+            <div class="tab" onclick="showTabContent('content4')">GUÍA DE NAVEGACIÓN</div>
+        </div>
+
+        <!-- Contenido de las pestañas -->
+        <div id="content1" class="tab-content">
+            <h2>¿En qué consiste "Entre Madres"?</h2>
+            <p>En el marco de un proyecto documental desarrollado por la Facultad de Diseño, Arquitectura y Urbanismo de la Universidad de Buenos Aires, surge esta página web con el propósito de recopilar testimonios y experiencias relacionadas con la maternidad, visibilizando sus múltiples dimensiones.</p>
+            <p>A lo largo de la historia, hemos convivido en una sociedad que, incluso en la actualidad, cuestiona a las mujeres por expresar emociones complejas o ambiguas respecto al acto de maternar. Las reflexiones en torno a la maternidad suelen limitarse a interpretaciones biológicas, culturales o normativas, con frecuencia relegando las voces de las propias mujeres a un segundo plano. Este proyecto busca, precisamente, otorgar protagonismo a las experiencias y perspectivas de las madres, abarcando aspectos como el trabajo, el desarrollo profesional, los deseos personales, las relaciones de pareja, la crianza en solitario y los profundos cambios internos que atraviesan. Cada una de estas áreas contribuye a conformar un tema tan intrincado como universal, que de algún modo nos interpela a todas.</p>
+            <p>Dirigido a madres en toda su diversidad, así como a quienes deseen explorar este universo, nuestra intención es construir una red que funcione como un espacio de refugio y contención. Un lugar donde las emociones —desde las más confusas hasta las más hermosas y ambiguas— encuentren un eco y una comunidad.</p>
+            <button onclick="closeContent1()">Cerrar</button>
+        </div>
+        
+        <div id="content2" class="tab-content">
+            <h2>Tu experiencia</h2>
+            <div class="image-text-container">
+                <img src="qr-code.png" alt="Descripción de la imagen" class="small-image">
+                <p>Si querés formar parte de esta comunidad, te invitamos a dejar tu experiencia a través del siguiente QR.</p>
+            </div>
+            <button onclick="closeContent2()">Cerrar</button>
+        </div>
+        
+        <div id="content3" class="tab-content">
+            <h2>Referencias y contactos</h2>
+            <p>Parte del gran proceso fue recaudar testimonios y experiencias de mujeres y madres mediante distintos medios: formularios de Google, contactaciones por WhatsApp, búsquedas de grupos en redes sociales. . . Realizamos una larga búsqueda para conseguir la mayor variedad posible de relatos, los cuales pudieran retratar los distintos matices que engloban a la maternidad. A continuación, se adjuntan distintos contactos, referencias y sitios de interés que ayudaron a darle vida a nuestro proyecto documental.</p>
+            <p>Contactos de organizaciones maternales:</p>
+            <p>
+                <a href="https://www.instagram.com/espacioinfinito_florida?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw%3D%3D" target="_blank">Espacio Infinito</a><br>
+                <a href="https://www.instagram.com/latribulila?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw%3D%3D" target="_blank">La Tribu Lila</a><br>
+                <a href="https://www.instagram.com/maternidad.santa.rosa?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw%3D%3D" target="_blank">Maternidad Santa Rosa</a>
+            </p>
+            <p>Grupos de Facebook para unirse, participar y mantenerse conectado:<br>
+                • Maternidad.<br>
+                • Mamás hermosas, maternidad, embarazos e hijos.<br>
+                • Embarazo y maternidad.<br>
+                • Maternidad y crianza.
+            </p>
+            <p>Textos de interés e investigación:<br>
+                • “El despertar de la maternidad”, Elianne Elbaum (2020).<br>
+                • “Las mujeres en la antigüedad”, Jesica E. Buffone (2020).<br>
+                • “Maternajes imperfectos para hacer las paces”, Magdalena Sancho Moreno (2020).<br>
+                • “Maternidades, experiencias y narraciones”, Serena Brigidi y Coral Cuadrada (2021).<br>
+                • “La tensión entre lo institucional y lo emergente en los nudos críticos de las maternidades: gestación y parto desde un pensar situado, crítico y feminista”, María Eugenia Hermida (2018).<br>
+                • “Maternidad y creación literaria. Entrevista a Lola López Mondéjar”, Marina Bettaglio.
+            </p>
+            <button onclick="closeContent3()">Cerrar</button>
+        </div>
+        
+        <div id="content4" class="tab-content">
+            <h2>¿Cómo navegar este mapa?</h2>
+            <p>La figura central hace referencia al cuerpo materno en su proceso de gestación. A medida que el cuerpo se despliega, se fragmenta en una serie de puntos coloridos, cuya identidad corresponde a cada mujer de manera única. Al hacer clic en cada punto, se despliegan los testimonios, permitiendo explorar diversos formatos multimedia: textos, audios y videos que integran ambos elementos.</p>
+            <p>Los colores seleccionados tienen significados específicos dentro del espectro visual, y están vinculados a distintos aspectos de la maternidad:<br>
+                • Amarillo: Hace referencia a los testimonios sobre la relación entre la maternidad y el TRABAJO. El amarillo está asociado a la riqueza, la abundancia, la fuerza y la acción. En este contexto, las experiencias reflejan tanto los desafíos que desafían este simbolismo, como los logros y éxitos en el ámbito laboral.<br>
+                • Rojo: Representa los testimonios sobre las RELACIONES y la PAREJA en torno a la maternidad. El rojo se vincula con la pasión, la fuerza, la revolución y el peligro, emociones que emergen a lo largo de las narrativas de las mujeres en esta sección.<br>
+                • Violeta: Agrupa los testimonios que abordan el ENTORNO de apoyo de una madre, incluyendo amistades y familia. El violeta está asociado con la incertidumbre y la introspección, emociones que caracterizan los relatos reunidos en esta área.<br>
+                • Celeste: Se refiere a los testimonios más PERSONALES , aquellos que exploran la experiencia interna de la madre, sus emociones y cambios vividos. El celeste simboliza la profundidad emocional y la espiritualidad, características esenciales para reflexionar sobre los propios cambios durante la maternidad.<br>
+                • Negro: Representa los testimonios vinculados a la PÉRDIDA y a lo que no ocurrió. El negro, además de estar relacionado con las emociones de duelo, simboliza lo desconocido, una característica que resuena profundamente en esta sección del proyecto.
+            </p>
+            <p>Cada color no solo refleja una temática específica, sino también la diversidad de experiencias y sentimientos que atraviesan las madres en su camino.</p>
+            <button onclick="closeContent4()">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        function showSecondSplash() {
+    // Oculta la primera pantalla
+    const splashScreen = document.getElementById("splashScreen");
+    splashScreen.classList.add("hidden");
+
+    // Muestra la segunda pantalla
+    const secondSplash = document.getElementById("second-splash");
+    secondSplash.classList.add("show");
+
+    // Activa la animación del texto en la segunda pantalla
+    const secondTextBox = secondSplash.querySelector(".splash-text-box");
+    setTimeout(() => {
+        secondTextBox.classList.add("show");
+    }, 10); // Pequeño retraso para aplicar las transiciones
+}
+
+function hideSecondSplash() {
+    // Oculta la segunda pantalla
+    const secondSplash = document.getElementById("second-splash");
+    secondSplash.classList.remove("show");
+
+    // Muestra el contenido principal (si corresponde)
+    const mainContent = document.getElementById("main-content");
+    if (mainContent) {
+        mainContent.style.display = "block";
+        setTimeout(() => {
+            mainContent.classList.add("show");
+        }, 10);
+    }
+}
+       // Función para mostrar o cerrar el contenido de la pestaña seleccionada
+function showTabContent(tabId) {
+    const selectedTab = document.getElementById(tabId);
+
+    if (selectedTab.classList.contains('active')) {
+        selectedTab.classList.remove('active'); // Cierra el contenedor
+    } else {
+        // Cierra cualquier otro contenedor activo
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        // Activa el contenedor seleccionado
+        selectedTab.classList.add('active');
+        selectedTab.style.display = "block"; // Asegura que esté visible
+    }
+}
+
+// Funciones para cerrar contenedores
+function closeContent1() {
+    const content1 = document.getElementById("content1");
+    content1.style.display = "none";
+    content1.classList.remove('active');
+}
+
+function closeContent2() {
+    const content2 = document.getElementById("content2");
+    content2.style.display = "none";
+    content2.classList.remove('active');
+}
+
+function closeContent3() {
+    const content3 = document.getElementById("content3");
+    content3.style.display = "none";
+    content3.classList.remove('active');
+}
+
+function closeContent4() {
+    const content4 = document.getElementById("content4");
+    content4.style.display = "none";
+    content4.classList.remove('active');
+}
+
+        window.onload = function() {
+    // Al cargar la página, agrega la clase 'show' a la splash-text-box
+    const splashTextBox = document.querySelector('.splash-text-box');
+    setTimeout(() => {
+        splashTextBox.classList.add('show'); // Hace que el cuadro de texto aparezca progresivamente
+    }, 500); // Retraso de 500ms antes de comenzar la transición
+    };
+       
+ function openVideoModal(event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado del clic
+    const modal = document.getElementById("videoModal");
+    modal.style.display = "flex"; // Muestra el modal
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    // Ajusta las coordenadas para posicionar el modal
+    modal.style.left = `${clickX}px`;
+    modal.style.top = `${clickY}px`;
+
+    // Configura el modal como absoluto y muéstralo
+    modal.style.position = "absolute";
+    modal.style.transform = "translate(-50%, -50%)"; // Centra el modal respecto al clic
+    modal.style.display = "flex";
+
+    // Reproduce el video
+    const video = document.getElementById("videoContent");
+    video.play();
+}
+
+function closeVideoModal() {
+    const modal = document.getElementById("videoModal");
+    modal.style.display = "none"; // Oculta el modal
+    const video = document.getElementById("videoContent");
+    video.pause(); // Pausa la reproducción del video
+    video.currentTime = 0; // Reinicia el video (opcional)
+}
+
+function openVideoModal2(event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado del clic
+    const modal = document.getElementById("videoModal2");
+    modal.style.display = "flex"; // Muestra el modal
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    // Ajusta las coordenadas para posicionar el modal
+    modal.style.left = `${clickX}px`;
+    modal.style.top = `${clickY}px`;
+
+    // Configura el modal como absoluto y muéstralo
+    modal.style.position = "absolute";
+    modal.style.transform = "translate(-50%, -50%)"; // Centra el modal respecto al clic
+    modal.style.display = "flex";
+
+    // Reproduce el video
+    const video = document.getElementById("videoContent2");
+    video.play();
+}
+
+function closeVideoModal2() {
+    const modal = document.getElementById("videoModal2");
+    modal.style.display = "none"; // Oculta el modal
+    const video = document.getElementById("videoContent2");
+    video.pause(); // Pausa la reproducción del video
+    video.currentTime = 0; // Reinicia el video (opcional)
+}
+
+function openVideoModal3(event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado del clic
+    const modal = document.getElementById("videoModal3");
+    modal.style.display = "flex"; // Muestra el modal
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    // Ajusta las coordenadas para posicionar el modal
+    modal.style.left = `${clickX}px`;
+    modal.style.top = `${clickY}px`;
+
+    // Configura el modal como absoluto y muéstralo
+    modal.style.position = "absolute";
+    modal.style.transform = "translate(-50%, -50%)"; // Centra el modal respecto al clic
+    modal.style.display = "flex";
+
+    // Reproduce el video
+    const video = document.getElementById("videoContent3");
+    video.play();
+}
+
+function closeVideoModal3() {
+    const modal = document.getElementById("videoModal3");
+    modal.style.display = "none"; // Oculta el modal
+    const video = document.getElementById("videoContent3");
+    video.pause(); // Pausa la reproducción del video
+    video.currentTime = 0; // Reinicia el video (opcional)
+}
+
+function openVideoModal4(event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado del clic
+    const modal = document.getElementById("videoModal4");
+    modal.style.display = "flex"; // Muestra el modal
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    // Ajusta las coordenadas para posicionar el modal
+    modal.style.left = `${clickX}px`;
+    modal.style.top = `${clickY}px`;
+
+    // Configura el modal como absoluto y muéstralo
+    modal.style.position = "absolute";
+    modal.style.transform = "translate(-50%, -50%)"; // Centra el modal respecto al clic
+    modal.style.display = "flex";
+
+    // Reproduce el video
+    const video = document.getElementById("videoContent4");
+    video.play();
+}
+
+function closeVideoModal4() {
+    const modal = document.getElementById("videoModal4");
+    modal.style.display = "none"; // Oculta el modal
+    const video = document.getElementById("videoContent4");
+    video.pause(); // Pausa la reproducción del video
+    video.currentTime = 0; // Reinicia el video (opcional)
+}
+
+function openVideoModal5(event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado del clic
+    const modal = document.getElementById("videoModal5");
+    modal.style.display = "flex"; // Muestra el modal
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    // Ajusta las coordenadas para posicionar el modal
+    modal.style.left = `${clickX}px`;
+    modal.style.top = `${clickY}px`;
+
+    // Configura el modal como absoluto y muéstralo
+    modal.style.position = "absolute";
+    modal.style.transform = "translate(-50%, -50%)"; // Centra el modal respecto al clic
+    modal.style.display = "flex";
+
+    // Reproduce el video
+    const video = document.getElementById("videoContent5");
+    video.play();
+}
+
+function closeVideoModal5() {
+    const modal = document.getElementById("videoModal5");
+    modal.style.display = "none"; // Oculta el modal
+    const video = document.getElementById("videoContent5");
+    video.pause(); // Pausa la reproducción del video
+    video.currentTime = 0; // Reinicia el video (opcional)
+}
+
+// funciones de AUDIO 
+function showAudioPlayer(event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado
+    const audioPlayer = document.getElementById("audioPlayer");
+    const img = document.getElementById("imagen");
+
+    // Coordenadas del clic relativas al documento
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    // Coordenadas de la imagen en la página
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    // Ajustar la posición del reproductor de audio relativo a la imagen
+    audioPlayer.style.left = `${offsetX + imgRect.left}px`;
+    audioPlayer.style.top = `${offsetY + imgRect.top}px`;
+    audioPlayer.style.display = "block";
+    audioPlayer.style.zIndex = "50"; // Asegura que esté por encima de otros elementos
+}
+
+function closeAudioPlayer() {
+    const audioPlayer = document.getElementById("audioPlayer");
+    audioPlayer.style.display = "none";
+}
+
+function showAudioPlayer2(event) {
+        event.preventDefault();
+        const audioPlayer2 = document.getElementById("audioPlayer2");
+        const img = document.getElementById("imagen");
+
+        if (!img) {
+            console.log("Imagen no encontrada");
+            return;
+        }
+
+        const clickX = event.pageX;
+        const clickY = event.pageY;
+
+        const imgRect = img.getBoundingClientRect();
+        const offsetX = clickX - imgRect.left;
+        const offsetY = clickY - imgRect.top; // Aquí también necesitamos ajustar el Y
+
+        audioPlayer2.style.left = `${offsetX + imgRect.left}px`;
+        audioPlayer2.style.top = `${offsetY + imgRect.top}px`;
+        audioPlayer2.style.display = "block";
+        audioPlayer2.style.zIndex = "50";
+    }
+
+    // Cerrar el reproductor de audio 2
+    function closeAudioPlayer2() {
+        const audioPlayer2 = document.getElementById("audioPlayer2");
+        audioPlayer2.style.display = "none";
+    }
+
+    function showAudioPlayer3(event) {
+        event.preventDefault();
+        const audioPlayer3 = document.getElementById("audioPlayer3");
+        const img = document.getElementById("imagen");
+
+        if (!img) {
+            console.log("Imagen no encontrada");
+            return;
+        }
+
+        const clickX = event.pageX;
+        const clickY = event.pageY;
+
+        const imgRect = img.getBoundingClientRect();
+        const offsetX = clickX - imgRect.left;
+        const offsetY = clickY - imgRect.top; // Aquí también necesitamos ajustar el Y
+
+        audioPlayer3.style.left = `${offsetX + imgRect.left}px`;
+        audioPlayer3.style.top = `${offsetY + imgRect.top}px`;
+        audioPlayer3.style.display = "block";
+        audioPlayer3.style.zIndex = "50";
+    }
+
+    // Cerrar el reproductor de audio 2
+    function closeAudioPlayer3() {
+        const audioPlayer3 = document.getElementById("audioPlayer3");
+        audioPlayer3.style.display = "none";
+    }
+
+    function showAudioPlayer4(event) {
+        event.preventDefault();
+        const audioPlayer4 = document.getElementById("audioPlayer4");
+        const img = document.getElementById("imagen");
+
+        if (!img) {
+            console.log("Imagen no encontrada");
+            return;
+        }
+
+        const clickX = event.pageX;
+        const clickY = event.pageY;
+
+        const imgRect = img.getBoundingClientRect();
+        const offsetX = clickX - imgRect.left;
+        const offsetY = clickY - imgRect.top; // Aquí también necesitamos ajustar el Y
+
+        audioPlayer4.style.left = `${offsetX + imgRect.left}px`;
+        audioPlayer4.style.top = `${offsetY + imgRect.top}px`;
+        audioPlayer4.style.display = "block";
+        audioPlayer4.style.zIndex = "50";
+    }
+
+    // Cerrar el reproductor de audio 2
+    function closeAudioPlayer4() {
+        const audioPlayer4 = document.getElementById("audioPlayer4");
+        audioPlayer4.style.display = "none";
+    }
+
+    function showAudioPlayer5(event) {
+        event.preventDefault();
+        const audioPlayer5 = document.getElementById("audioPlayer5");
+        const img = document.getElementById("imagen");
+
+        if (!img) {
+            console.log("Imagen no encontrada");
+            return;
+        }
+
+        const clickX = event.pageX;
+        const clickY = event.pageY;
+        const imgRect = img.getBoundingClientRect();
+        const offsetX = clickX - imgRect.left;
+        const offsetY = clickY - imgRect.top; // Aquí también necesitamos ajustar el Y
+
+        audioPlayer5.style.left = `${offsetX + imgRect.left}px`;
+        audioPlayer5.style.top = `${offsetY + imgRect.top}px`;
+        audioPlayer5.style.display = "block";
+        audioPlayer5.style.zIndex = "50";
+    }
+
+    // Cerrar el reproductor de audio 2
+    function closeAudioPlayer5() {
+        const audioPlayer5 = document.getElementById("audioPlayer5");
+        audioPlayer5.style.display = "none";
+    }
+
+    function showAudioPlayer6(event) {
+        event.preventDefault();
+        const audioPlayer6 = document.getElementById("audioPlayer6");
+        const img = document.getElementById("imagen");
+
+        if (!img) {
+            console.log("Imagen no encontrada");
+            return;
+        }
+
+        const clickX = event.pageX;
+        const clickY = event.pageY;
+        const imgRect = img.getBoundingClientRect();
+        const offsetX = clickX - imgRect.left;
+        const offsetY = clickY - imgRect.top; // Aquí también necesitamos ajustar el Y
+
+        audioPlayer6.style.left = `${offsetX + imgRect.left}px`;
+        audioPlayer6.style.top = `${offsetY + imgRect.top}px`;
+        audioPlayer6.style.display = "block";
+        audioPlayer6.style.zIndex = "50";
+    }
+
+    // Cerrar el reproductor de audio 2
+    function closeAudioPlayer6() {
+        const audioPlayer6 = document.getElementById("audioPlayer6");
+        audioPlayer6.style.display = "none";
+    }
+
+
+    function showAudioPlayer7(event) {
+        event.preventDefault();
+        const audioPlayer7 = document.getElementById("audioPlayer7");
+        const img = document.getElementById("imagen");
+
+        if (!img) {
+            console.log("Imagen no encontrada");
+            return;
+        }
+
+        const clickX = event.pageX;
+        const clickY = event.pageY;
+        const imgRect = img.getBoundingClientRect();
+        const offsetX = clickX - imgRect.left;
+        const offsetY = clickY - imgRect.top; // Aquí también necesitamos ajustar el Y
+
+        audioPlayer7.style.left = `${offsetX + imgRect.left}px`;
+        audioPlayer7.style.top = `${offsetY + imgRect.top}px`;
+        audioPlayer7.style.display = "block";
+        audioPlayer7.style.zIndex = "50";
+    }
+
+    // Cerrar el reproductor de audio 2
+    function closeAudioPlayer7() {
+        const audioPlayer7 = document.getElementById("audioPlayer7");
+        audioPlayer7.style.display = "none";
+    }
+
+    function showAudioPlayer8(event) {
+        event.preventDefault();
+        const audioPlayer8 = document.getElementById("audioPlayer8");
+        const img = document.getElementById("imagen");
+
+        if (!img) {
+            console.log("Imagen no encontrada");
+            return;
+        }
+
+        const clickX = event.pageX;
+        const clickY = event.pageY;
+        const imgRect = img.getBoundingClientRect();
+        const offsetX = clickX - imgRect.left;
+        const offsetY = clickY - imgRect.top; // Aquí también necesitamos ajustar el Y
+
+        audioPlayer8.style.left = `${offsetX + imgRect.left}px`;
+        audioPlayer8.style.top = `${offsetY + imgRect.top}px`;
+        audioPlayer8.style.display = "block";
+        audioPlayer8.style.zIndex = "50";
+    }
+
+    // Cerrar el reproductor de audio 2
+    function closeAudioPlayer8() {
+        const audioPlayer8 = document.getElementById("audioPlayer8");
+        audioPlayer8.style.display = "none";
+    }
+
+    function showAudioPlayer9(event) {
+        event.preventDefault();
+        const audioPlayer9 = document.getElementById("audioPlayer9");
+        const img = document.getElementById("imagen");
+
+        if (!img) {
+            console.log("Imagen no encontrada");
+            return;
+        }
+
+        const clickX = event.pageX;
+        const clickY = event.pageY;
+        const imgRect = img.getBoundingClientRect();
+        const offsetX = clickX - imgRect.left;
+        const offsetY = clickY - imgRect.top; // Aquí también necesitamos ajustar el Y
+
+        audioPlayer9.style.left = `${offsetX + imgRect.left}px`;
+        audioPlayer9.style.top = `${offsetY + imgRect.top}px`;
+        audioPlayer9.style.display = "block";
+        audioPlayer9.style.zIndex = "50";
+    }
+
+    // Cerrar el reproductor de audio 2
+    function closeAudioPlayer9() {
+        const audioPlayer9 = document.getElementById("audioPlayer9");
+        audioPlayer9.style.display = "none";
+    }
+
+    function showAudioPlayer10(event) {
+        event.preventDefault();
+        const audioPlayer10 = document.getElementById("audioPlayer10");
+        const img = document.getElementById("imagen");
+
+        if (!img) {
+            console.log("Imagen no encontrada");
+            return;
+        }
+
+        const clickX = event.pageX;
+        const clickY = event.pageY;
+        const imgRect = img.getBoundingClientRect();
+        const offsetX = clickX - imgRect.left;
+        const offsetY = clickY - imgRect.top; // Aquí también necesitamos ajustar el Y
+
+        audioPlayer10.style.left = `${offsetX + imgRect.left}px`;
+        audioPlayer10.style.top = `${offsetY + imgRect.top}px`;
+        audioPlayer10.style.display = "block";
+        audioPlayer10.style.zIndex = "50";
+    }
+
+    // Cerrar el reproductor de audio 2
+    function closeAudioPlayer10() {
+        const audioPlayer10 = document.getElementById("audioPlayer10");
+        audioPlayer10.style.display = "none";
+    }
+
+    function showAudioPlayer11(event) {
+        event.preventDefault();
+        const audioPlayer11 = document.getElementById("audioPlayer11");
+        const img = document.getElementById("imagen");
+
+        if (!img) {
+            console.log("Imagen no encontrada");
+            return;
+        }
+
+        const clickX = event.pageX;
+        const clickY = event.pageY;
+        const imgRect = img.getBoundingClientRect();
+        const offsetX = clickX - imgRect.left;
+        const offsetY = clickY - imgRect.top; // Aquí también necesitamos ajustar el Y
+
+        audioPlayer11.style.left = `${offsetX + imgRect.left}px`;
+        audioPlayer11.style.top = `${offsetY + imgRect.top}px`;
+        audioPlayer11.style.display = "block";
+        audioPlayer11.style.zIndex = "50";
+    }
+
+    // Cerrar el reproductor de audio 2
+    function closeAudioPlayer11() {
+        const audioPlayer11 = document.getElementById("audioPlayer11");
+        audioPlayer11.style.display = "none";
+    }
+
+// funciones de TEXTO 
+function showTextBox(event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado
+    const textBox = document.getElementById("textBox");
+    const img = document.getElementById("imagen");
+
+    // Coordenadas del clic relativas al documento
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    // Coordenadas de la imagen en la página
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    // Ajustar la posición del cuadro de texto relativo a la imagen
+    textBox.style.left = `${offsetX + imgRect.left}px`;
+    textBox.style.top = `${offsetY + imgRect.top}px`;
+    textBox.style.display = "block";
+    textBox.style.zIndex = "50"; // Asegura que esté por encima de otros elementos
+}
+
+function closeTextBox() {
+    const textBox = document.getElementById("textBox");
+    textBox.style.display = "none";
+}
+
+function disableScroll() {
+    document.body.style.overflow = 'hidden';
+}
+function enableScroll() {
+    document.body.style.overflow = '';
+}
+
+function showTextBox3(event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado
+    const textBox3 = document.getElementById("textBox3");
+    const img = document.getElementById("imagen");
+
+    // Coordenadas del clic relativas al documento
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    // Coordenadas de la imagen en la página
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    // Ajustar la posición del cuadro de texto relativo a la imagen
+    textBox3.style.left = `${offsetX + imgRect.left}px`;
+    textBox3.style.top = `${offsetY + imgRect.top}px`;
+    textBox3.style.display = "block";
+    textBox3.style.zIndex = "50"; // Asegura que esté por encima de otros elementos
+}
+
+function closeTextBox3() {
+    const textBox3 = document.getElementById("textBox3");
+    textBox3.style.display = "none";
+}
+
+function showTextBox4(event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado
+    const textBox4 = document.getElementById("textBox4");
+    const img = document.getElementById("imagen");
+
+    // Coordenadas del clic relativas al documento
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    // Coordenadas de la imagen en la página
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    // Ajustar la posición del cuadro de texto relativo a la imagen
+    textBox4.style.left = `${offsetX + imgRect.left}px`;
+    textBox4.style.top = `${offsetY + imgRect.top}px`;
+    textBox4.style.display = "block";
+    textBox4.style.zIndex = "50"; // Asegura que esté por encima de otros elementos
+}
+
+function closeTextBox4() {
+    const textBox4 = document.getElementById("textBox4");
+    textBox4.style.display = "none";
+}
+
+function showTextBox5(event) {
+    event.preventDefault(); // Evita el comportamiento predeterminado
+    const textBox5 = document.getElementById("textBox5");
+    const img = document.getElementById("imagen");
+
+    // Coordenadas del clic relativas al documento
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    // Coordenadas de la imagen en la página
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    // Ajustar la posición del cuadro de texto relativo a la imagen
+    textBox5.style.left = `${offsetX + imgRect.left}px`;
+    textBox5.style.top = `${offsetY + imgRect.top}px`;
+    textBox5.style.display = "block";
+    textBox5.style.zIndex = "50"; // Asegura que esté por encima de otros elementos
+}
+
+function closeTextBox5() {
+    const textBox5 = document.getElementById("textBox5");
+    textBox5.style.display = "none";
+}
+
+function showTextBox6(event) {
+    event.preventDefault(); 
+    const textBox6 = document.getElementById("textBox6");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; 
+
+    textBox6.style.left = `${offsetX + imgRect.left}px`;
+    textBox6.style.top = `${offsetY + imgRect.top}px`;
+    textBox6.style.display = "block";
+    textBox6.style.zIndex = "50"; 
+}
+
+function closeTextBox6() {
+    const textBox6 = document.getElementById("textBox6");
+    textBox6.style.display = "none";
+}
+
+function showTextBox7(event) {
+    event.preventDefault(); 
+    const textBox7 = document.getElementById("textBox7");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox7.style.left = `${offsetX + imgRect.left}px`;
+    textBox7.style.top = `${offsetY + imgRect.top}px`;
+    textBox7.style.display = "block";
+    textBox7.style.zIndex = "50"; 
+}
+function closeTextBox7() {
+    const textBox7 = document.getElementById("textBox7");
+    textBox7.style.display = "none";
+}
+
+function showTextBox8(event) {
+    event.preventDefault(); 
+    const textBox8 = document.getElementById("textBox8");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox8.style.left = `${offsetX + imgRect.left}px`;
+    textBox8.style.top = `${offsetY + imgRect.top}px`;
+    textBox8.style.display = "block";
+    textBox8.style.zIndex = "50"; 
+}
+function closeTextBox8() {
+    const textBox8 = document.getElementById("textBox8");
+    textBox8.style.display = "none";
+}
+
+function showTextBox9(event) {
+    event.preventDefault(); 
+    const textBox9 = document.getElementById("textBox9");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox9.style.left = `${offsetX + imgRect.left}px`;
+    textBox9.style.top = `${offsetY + imgRect.top}px`;
+    textBox9.style.display = "block";
+    textBox9.style.zIndex = "50"; 
+}
+function closeTextBox9() {
+    const textBox9 = document.getElementById("textBox9");
+    textBox9.style.display = "none";
+}
+
+function showTextBox10(event) {
+    event.preventDefault(); 
+    const textBox10 = document.getElementById("textBox10");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox10.style.left = `${offsetX + imgRect.left}px`;
+    textBox10.style.top = `${offsetY + imgRect.top}px`;
+    textBox10.style.display = "block";
+    textBox10.style.zIndex = "50"; 
+}
+function closeTextBox10() {
+    const textBox10 = document.getElementById("textBox10");
+    textBox10.style.display = "none";
+}
+
+function showTextBox11(event) {
+    event.preventDefault(); 
+    const textBox11 = document.getElementById("textBox11");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox11.style.left = `${offsetX + imgRect.left}px`;
+    textBox11.style.top = `${offsetY + imgRect.top}px`;
+    textBox11.style.display = "block";
+    textBox11.style.zIndex = "50"; 
+}
+function closeTextBox11() {
+    const textBox11 = document.getElementById("textBox11");
+    textBox11.style.display = "none";
+}
+
+function showTextBox12(event) {
+    event.preventDefault(); 
+    const textBox12 = document.getElementById("textBox12");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox12.style.left = `${offsetX + imgRect.left}px`;
+    textBox12.style.top = `${offsetY + imgRect.top}px`;
+    textBox12.style.display = "block";
+    textBox12.style.zIndex = "50"; 
+}
+function closeTextBox12() {
+    const textBox12 = document.getElementById("textBox12");
+    textBox12.style.display = "none";
+}
+
+function showTextBox13(event) {
+    event.preventDefault(); 
+    const textBox13 = document.getElementById("textBox13");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox13.style.left = `${offsetX + imgRect.left}px`;
+    textBox13.style.top = `${offsetY + imgRect.top}px`;
+    textBox13.style.display = "block";
+    textBox13.style.zIndex = "50"; 
+}
+function closeTextBox13() {
+    const textBox13 = document.getElementById("textBox13");
+    textBox13.style.display = "none";
+}
+
+function showTextBox14(event) {
+    event.preventDefault(); 
+    const textBox14 = document.getElementById("textBox14");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox14.style.left = `${offsetX + imgRect.left}px`;
+    textBox14.style.top = `${offsetY + imgRect.top}px`;
+    textBox14.style.display = "block";
+    textBox14.style.zIndex = "50"; 
+}
+function closeTextBox14() {
+    const textBox14 = document.getElementById("textBox14");
+    textBox14.style.display = "none";
+}
+
+function showTextBox15(event) {
+    event.preventDefault(); 
+    const textBox15 = document.getElementById("textBox15");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox15.style.left = `${offsetX + imgRect.left}px`;
+    textBox15.style.top = `${offsetY + imgRect.top}px`;
+    textBox15.style.display = "block";
+    textBox15.style.zIndex = "50"; 
+}
+function closeTextBox15() {
+    const textBox15 = document.getElementById("textBox15");
+    textBox15.style.display = "none";
+}
+
+function showTextBox16(event) {
+    event.preventDefault(); 
+    const textBox16 = document.getElementById("textBox16");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox16.style.left = `${offsetX + imgRect.left}px`;
+    textBox16.style.top = `${offsetY + imgRect.top}px`;
+    textBox16.style.display = "block";
+    textBox16.style.zIndex = "50"; 
+}
+function closeTextBox16() {
+    const textBox16 = document.getElementById("textBox16");
+    textBox16.style.display = "none";
+}
+
+function showTextBox17(event) {
+    event.preventDefault(); 
+    const textBox17 = document.getElementById("textBox17");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox17.style.left = `${offsetX + imgRect.left}px`;
+    textBox17.style.top = `${offsetY + imgRect.top}px`;
+    textBox17.style.display = "block";
+    textBox17.style.zIndex = "50"; 
+}
+function closeTextBox17() {
+    const textBox17 = document.getElementById("textBox17");
+    textBox17.style.display = "none";
+}
+
+function showTextBox18(event) {
+    event.preventDefault(); 
+    const textBox18 = document.getElementById("textBox18");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox18.style.left = `${offsetX + imgRect.left}px`;
+    textBox18.style.top = `${offsetY + imgRect.top}px`;
+    textBox18.style.display = "block";
+    textBox18.style.zIndex = "50"; 
+}
+function closeTextBox18() {
+    const textBox18 = document.getElementById("textBox18");
+    textBox18.style.display = "none";
+}
+
+function showTextBox19(event) {
+    event.preventDefault(); 
+    const textBox19 = document.getElementById("textBox19");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox19.style.left = `${offsetX + imgRect.left}px`;
+    textBox19.style.top = `${offsetY + imgRect.top}px`;
+    textBox19.style.display = "block";
+    textBox19.style.zIndex = "50"; 
+}
+function closeTextBox19() {
+    const textBox19 = document.getElementById("textBox19");
+    textBox19.style.display = "none";
+}
+
+function showTextBox20(event) {
+    event.preventDefault(); 
+    const textBox20 = document.getElementById("textBox20");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox20.style.left = `${offsetX + imgRect.left}px`;
+    textBox20.style.top = `${offsetY + imgRect.top}px`;
+    textBox20.style.display = "block";
+    textBox20.style.zIndex = "50"; 
+}
+function closeTextBox20() {
+    const textBox20 = document.getElementById("textBox20");
+    textBox20.style.display = "none";
+}
+
+function showTextBox21(event) {
+    event.preventDefault(); 
+    const textBox21 = document.getElementById("textBox21");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox21.style.left = `${offsetX + imgRect.left}px`;
+    textBox21.style.top = `${offsetY + imgRect.top}px`;
+    textBox21.style.display = "block";
+    textBox21.style.zIndex = "50"; 
+}
+function closeTextBox21() {
+    const textBox21 = document.getElementById("textBox21");
+    textBox21.style.display = "none";
+}
+
+function showTextBox22(event) {
+    event.preventDefault(); 
+    const textBox22 = document.getElementById("textBox22");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox22.style.left = `${offsetX + imgRect.left}px`;
+    textBox22.style.top = `${offsetY + imgRect.top}px`;
+    textBox22.style.display = "block";
+    textBox22.style.zIndex = "50"; 
+}
+function closeTextBox22() {
+    const textBox22 = document.getElementById("textBox22");
+    textBox22.style.display = "none";
+}
+
+function showTextBox23(event) {
+    event.preventDefault(); 
+    const textBox23 = document.getElementById("textBox23");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox23.style.left = `${offsetX + imgRect.left}px`;
+    textBox23.style.top = `${offsetY + imgRect.top}px`;
+    textBox23.style.display = "block";
+    textBox23.style.zIndex = "50"; 
+}
+function closeTextBox23() {
+    const textBox23 = document.getElementById("textBox23");
+    textBox23.style.display = "none";
+}
+
+function showTextBox24(event) {
+    event.preventDefault(); 
+    const textBox24 = document.getElementById("textBox24");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox24.style.left = `${offsetX + imgRect.left}px`;
+    textBox24.style.top = `${offsetY + imgRect.top}px`;
+    textBox24.style.display = "block";
+    textBox24.style.zIndex = "50"; 
+}
+function closeTextBox24() {
+    const textBox24 = document.getElementById("textBox24");
+    textBox24.style.display = "none";
+}
+
+function showTextBox25(event) {
+    event.preventDefault(); 
+    const textBox25 = document.getElementById("textBox25");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox25.style.left = `${offsetX + imgRect.left}px`;
+    textBox25.style.top = `${offsetY + imgRect.top}px`;
+    textBox25.style.display = "block";
+    textBox25.style.zIndex = "50"; 
+}
+function closeTextBox25() {
+    const textBox25 = document.getElementById("textBox25");
+    textBox25.style.display = "none";
+}
+
+function showTextBox26(event) {
+    event.preventDefault(); 
+    const textBox26 = document.getElementById("textBox26");
+    const img = document.getElementById("imagen");
+
+    const clickX = event.pageX;
+    const clickY = event.pageY;
+
+    const imgRect = img.getBoundingClientRect();
+    const offsetX = clickX - imgRect.left; // Ajusta la posición X dentro de la imagen
+    const offsetY = clickY - imgRect.top;  // Ajusta la posición Y dentro de la imagen
+
+    textBox26.style.left = `${offsetX + imgRect.left}px`;
+    textBox26.style.top = `${offsetY + imgRect.top}px`;
+    textBox26.style.display = "block";
+    textBox26.style.zIndex = "50"; 
+}
+function closeTextBox26() {
+    const textBox26 = document.getElementById("textBox26");
+    textBox26.style.display = "none";
+}
+
+    </script>
+</body>
+</html>
